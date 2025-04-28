@@ -1,0 +1,991 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+
+html, body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; 
+  background-color: #000;
+
+  animation: fadeIn 1.5s ease-out;
+}
+
+
+.homepage {
+  position: relative;
+  z-index: 1; /* Ensure the content is above the background */
+}
+
+.homepage::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/src/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; 
+  z-index: -1; 
+  opacity: 0.5; 
+}
+@media(max-width:768px){
+  .homepage::before {
+    background-image: url('https://imgs.search.brave.com/w9SI1MauR04OMLpOan6eR8sqMXaH9PEKGzVYqZls5Q8/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9ibG9n/LmxvZ3JvY2tldC5j/b20vd3AtY29udGVu/dC91cGxvYWRzLzIw/MjMvMDEvZGVtby1p/bWFnZS0xLnBuZw');
+  }
+}
+
+.page-fade-in {
+  animation: fadeIn 1.2s ease-out;
+}
+
+
+
+.section-hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  will-change: opacity, transform;
+}
+
+.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+/* Header */
+
+
+@media(min-width:601px) {
+  .header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 50;
+    padding: 0.1rem 0.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+  }
+}
+
+
+
+.header.scrolled {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.header .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.header nav a {
+  position: relative;
+  font-size: 1.125rem;
+  color: white;
+  margin-left: 1.5rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.header nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #f59e0b;
+  transition: width 0.3s ease;
+}
+
+.header nav a:hover {
+  color: #f59e0b;
+}
+
+.header nav a:hover::after {
+  width: 100%;
+}
+
+
+
+.nav-link {
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 5px;
+  transition: color 0.3s ease;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background-color: orange;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.hamburger,
+.close-btn {
+  display: none;
+}
+/* Show hamburger and close button on mobile screens */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #333; /* You can change color */
+  }
+
+  .close-btn {
+    display: block;
+    font-size: 2rem;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    color: white; /* White to look better on dark background */
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 60%; /* 🛠️ Only 60% of screen width, not full */
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 999;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* 🛠️ Start from top instead of center */
+    padding-top: 5rem; /* 🛠️ Some gap from top after close button */
+    gap: 2rem; /* 🛠️ Proper space between links */
+
+    transform: translateX(100%); /* Initially hide */
+    opacity: 0;
+    pointer-events: none;
+
+    transition: all 0.5s ease;
+  }
+
+  /* When menuOpen is true, show nav-links */
+  .nav-links.open {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+
+/* Hero Section */
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-orange {
+  color: #f59e0b; /* Tailwind's amber-500 */
+}
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 80px 3rem 0; /* Add top padding to offset header */
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.hero-text {
+  flex: 0 0 75%; /* 75% width for text */
+  min-width: 0; /* Prevent the text from overflowing */
+  margin-right: 9rem;
+}
+@media(max-width:600px){
+  .hero-text p{
+    color: white;
+
+  }
+}
+
+.hero-image {
+  flex: 0 0 25%; /* 25% width for image */
+  text-align: center;
+
+
+}
+
+.hero h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  white-space: nowrap; /* Ensures the text is on a single line */
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+.hero-image img {
+  height: 100%;
+  width: 100%;
+  border-radius: 40%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.5s ease;
+}
+
+
+.pop-in {
+animation: popIn 1.2s ease forwards;
+}
+
+@keyframes popIn {
+0% {
+  opacity: 0;
+  transform: scale(0.8) translateY(30px);
+}
+100% {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+}
+
+
+.hero h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  margin-top: 1rem;
+  line-height: 1.6;
+}
+
+
+/* Menu section*/
+.menu {
+  width: 100%;
+  height: auto;
+  padding: 2rem 1rem 5rem;
+  color:white;
+  text-align: center;
+}
+
+.menu .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 5%;
+}
+
+.menu h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.menu p {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+  color:white;
+}
+
+/* Grid Layout */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  padding: 0 1rem;
+}
+
+/* Card Style */
+.menu-card {
+  position: relative;
+  height: 250px;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* 🔥 Frosted glass overlay on hover */
+.menu-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  border-radius: 1rem;
+}
+
+
+/* Show overlay on hover */
+.menu-card:hover::before {
+  opacity: 1;
+}
+
+/* Make sure text stays above the glass */
+.menu-card-title {
+  position: absolute;
+  z-index: 2; /* Above the glass */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Box */
+.modal-content {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  color: #fff;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  max-height: 90vh; /* 🧠 Limit modal height */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollable list container */
+.modal-list {
+  list-style: none;
+  margin-top: 1rem;
+  padding-right: 0.5rem;
+  overflow-y: auto;
+  flex: 1; /* 🧠 fill available space */
+}
+
+/* Optional: style the scrollbar */
+.modal-list::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.modal-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.modal-list img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+
+/* Close Button */
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+
+
+
+/*Memories section*/
+.memories {
+  width: 100%;
+  height: 100%;
+  padding: 2rem 1rem 5rem;
+  text-align: center;
+}
+
+.memories .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-top: 4%;
+}
+
+.memories h3 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.memories p {
+  margin-bottom: 2rem;
+  font-size: 1.2rem;
+}
+
+@media(max-width: 600px) {
+  .memories .image-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+}
+@media(min-width: 601px) {
+  .memories .image-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+}
+
+.memories .image-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transform: scale(0.9);
+  opacity: 0;
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  z-index: 0;
+}
+
+.memories .image-card img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 1rem;
+  object-fit: cover;
+
+}
+
+/* Pop-up animation when visible */
+.section-visible .image-card {
+  transform: scale(1);
+  opacity: 1;
+}
+
+
+/* 👇 Card grows on hover */
+.image-card:hover {
+  transform: scale(1.4);
+  z-index: 10;
+}
+
+/* About Section */
+.about {
+  width: 100%;
+  height: 100vh;
+  padding: 2rem 1rem 5rem;
+  text-align: center;
+}
+.about .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.about h3 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.about p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.about-content {
+  margin-top: 0;
+  padding-top: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap; /* Responsive fallback */
+}
+
+.about-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.point {
+  margin-bottom: 1.5rem;
+
+}
+
+.point h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #f59e0b;
+}
+
+.point p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.about-image {
+  margin-top: 3%;
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Services Section */
+.services {
+  width: 100%;
+  /* height: 100vh; */
+  position: relative;
+  padding: 5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.services::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+   z-index: 0; /* Stay behind the content */
+}
+
+.services .container {
+  position: relative;
+  z-index: 1; /* Ensures this stays above the blurred bg */
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  text-align: center;
+  color: white;
+}
+
+.services .service {
+  position: relative;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 250px; /* or whatever suits your layout */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: none; /* remove if not needed */
+}
+
+/* Pseudo-element to hold and blur the background image */
+.services .service {
+  position: relative;
+  padding: 2rem;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 300px; /* <-- ensure a fixed height or dynamic min-height */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.services .service::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(2px) brightness(0.7);
+  z-index: 0;
+  transition: transform 0.3s ease;
+}
+
+/* Optional overlay for contrast */
+.services .service::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3); /* Dark overlay */
+  z-index: 1;
+}
+
+.services .service h4,
+.services .service p {
+  position: relative;
+  z-index: 2; /* Text above everything */
+  margin: 0.5rem 0;
+  color: white;
+}
+
+.services .service:hover::before {
+  transform: scale(1.05); /* subtle zoom effect on hover */
+}
+
+
+.event-bg::before{
+  background-image: url('./background.jpg');
+}
+
+.wedding-bg::before{
+  background-image: url('./background.jpg');
+}
+.outdoor-bg::before{
+  background-image: url('./background.jpg');
+}
+.family-bg::before{
+  background-image: url('./background.jpg');
+}
+/* Contact Section */
+.contact {
+  width: 100%;
+  height: 100vh;
+  padding: 5rem 1rem;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+
+}
+.contact::before {
+content: '';
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -1; /* Keep it behind the content */
+}
+
+.contact .container {
+  background-color: rgba(255, 255, 255, 0.6); /* Slightly opaque white for form */
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 600px;
+  z-index: 2;
+  margin-top: 5%;
+}
+
+.contact h3 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: left;
+  color: #333;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.contact h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #f59e0b; /* Yellow line */
+}
+
+.contact form {
+  display: grid;
+  gap: 1.5rem;
+  text-align: left;
+}
+
+.contact input,
+.contact textarea {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.375rem;
+  width: 100%;
+  background-color: #fff;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.contact button {
+  background-color: #f59e0b;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  font-weight: bold;
+}
+
+.contact button:hover {
+  background-color: #d97706;
+}
+
+
+/* WhatsApp Button */
+/* WhatsApp Button */
+.whatsapp-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+/* WhatsApp Icon */
+.whatsapp-button img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+/* Floating Button That Appears Over WhatsApp */
+.floating-contact-btn {
+  position: absolute;
+  bottom: 60px; /* Pushed above WhatsApp icon */
+  left: 0;
+  animation: floatUpDown 2s ease-in-out infinite;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+.floating-contact-btn img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  background-color: #f59e0b;
+  padding: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.contact-dialog {
+position: absolute;
+bottom: 120px;
+left: 0;
+width: 250px;
+padding: 1rem;
+background: rgba(255, 255, 255, 0.95);
+border-radius: 12px;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+color: #333;
+font-size: 0.95rem;
+z-index: 1002;
+animation: fadeIn 0.3s ease-in-out;
+}
+
+.contact-dialog h4 {
+margin-top: 0;
+margin-bottom: 0.5rem;
+font-size: 1.1rem;
+color: #111;
+}
+
+.contact-dialog ul {
+list-style: none;
+padding-left: 0;
+margin: 0;
+}
+
+.contact-dialog li {
+margin-bottom: 0.5rem;
+}
+
+.contact-dialog .close-btn {
+position: absolute;
+top: 8px;
+right: 10px;
+background: transparent;
+border: none;
+font-size: 1.2rem;
+color: #333;
+cursor: pointer;
+}
+
+
+
+/* Floating Animation */
+@keyframes floatUpDown {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+
+/* Footer */
+footer {
+  background-color: #000;
+  color: white;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.back-to-top {
+  position: fixed;
+  display: flex; /* this ensures centering */
+  align-items: center;
+  justify-content: center;
+  bottom: 30px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  background-color: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.back-to-top.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+ 
+  transform: scale(1.1);
+}
+
+
+
+
+
