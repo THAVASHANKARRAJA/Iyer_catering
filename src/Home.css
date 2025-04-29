@@ -478,7 +478,7 @@ animation: popIn 1.2s ease forwards;
 
 
 /* Close Button */
-.close-btn {
+.modal-list .close-btn {
   position: absolute;
   top: 1rem;
   right: 1rem;
