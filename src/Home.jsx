@@ -205,30 +205,37 @@ const toggleMenu = () => {
 
 
 
-useEffect(() => {
-  const sections = ['home', 'services', 'menu', 'memories', 'about', 'contact'];
-  const observers = [];
-
-  sections.forEach((id) => {
-    const section = document.getElementById(id);
-    if (section) {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(id);
+  useEffect(() => {
+    const sections = ['home', 'services', 'menu', 'memories', 'about', 'contact'];
+  
+    const handleScroll = () => {
+      let currentSection = '';
+      let minDistance = window.innerHeight;
+  
+      sections.forEach((id) => {
+        const section = document.getElementById(id);
+        if (section) {
+          const rect = section.getBoundingClientRect();
+          const distance = Math.abs(rect.top - window.innerHeight / 2);
+  
+          if (distance < minDistance) {
+            minDistance = distance;
+            currentSection = id;
           }
-        },
-        { threshold: 0.5 }
-      );
-      observer.observe(section);
-      observers.push(observer);
-    }
-  });
-
-  return () => {
-    observers.forEach((observer) => observer.disconnect());
-  };
-}, []);
+        }
+      });
+  
+      if (currentSection) {
+        setActiveSection(currentSection);
+      }
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // run once on load
+  
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+  
 
     
 useEffect(() => {
@@ -432,7 +439,7 @@ useEffect(() => {
   className={`about ${aboutVisible ? 'section-visible' : 'section-hidden'}`}
 >
   <div className="container">
-    <h3>Who Are We?</h3>
+    <h3>Who we are?</h3>
     <p>
     We, Iyer Caterers, blend tradition and love, offering authentic vegetarian cuisine made with the finest ingredients for your cherished moments.
     </p>
@@ -527,7 +534,7 @@ useEffect(() => {
   
         {/* Footer */}
         <footer >
-          © 2025 Iyer Caterers. All rights reserved. Developed by @Wildbeans, Arun. A T & Vishal. M
+          © 2025 Iyer Caterers. All rights reserved. Developed by @Wildbeans
         </footer>
 
 
